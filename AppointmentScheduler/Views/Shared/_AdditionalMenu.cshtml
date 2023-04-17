@@ -1,6 +1,6 @@
-﻿@if (Context.Session.Get("uEmail") != null)
+﻿@if (Context.Session.Get("email") != null)
 {
 	<li class="nav-item">
-		<a class="nav-link text-dark" asp-controller="File" asp-action="Index">Files</a>
+		<a class="nav-link text-dark" asp-controller="Appointment" asp-action="List">Appointments</a>
 	</li>
 }

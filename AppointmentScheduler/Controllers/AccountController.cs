@@ -39,7 +39,7 @@ namespace AppointmentScheduler.Controllers
 						cmd.ExecuteNonQuery();
 						HttpContext.Session.SetString("email", model.Email);
 						HttpContext.Session.SetString("name", model.Name);
-						return RedirectToAction("Index", "Home");
+						return RedirectToAction("Index", "Appointment");
 					}
 				}
 				catch
@@ -81,7 +81,7 @@ namespace AppointmentScheduler.Controllers
 					{
 						HttpContext.Session.SetString("email", model.Email);
 						HttpContext.Session.SetString("name", res!);
-						return RedirectToAction("Index", "Home");
+						return RedirectToAction("Index", "Appointment");
 					}
 					else
 					{
