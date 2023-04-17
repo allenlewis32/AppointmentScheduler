@@ -10,6 +10,7 @@ namespace AppointmentScheduler.Models
 
 		[Key]
 		[Required]
+		[EmailAddress]
 		public string Email { get; set; }
 
 		[Required]

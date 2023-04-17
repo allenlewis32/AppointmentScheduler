@@ -68,7 +68,7 @@ namespace AppointmentScheduler.Controllers
 		// POST: Account/Login
 		public IActionResult Login(LoginModel model)
 		{
-			if(ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
 				try
 				{
@@ -77,7 +77,7 @@ namespace AppointmentScheduler.Controllers
 					cmd.Parameters.AddWithValue("@email", model.Email);
 					cmd.Parameters.AddWithValue("@password", model.Password);
 					string? res = (string?)cmd.ExecuteScalar();
-					if(res != null)
+					if (res != null)
 					{
 						HttpContext.Session.SetString("email", model.Email);
 						HttpContext.Session.SetString("name", res!);
@@ -91,6 +91,49 @@ namespace AppointmentScheduler.Controllers
 				catch
 				{
 					ModelState.AddModelError("", "Unable to login");
+				}
+			}
+			return View(model);
+		}
+
+		// GET: Account/ChangePassword
+		public IActionResult ChangePassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		// POST: Account/ChangePassword
+		public IActionResult ChangePassword(ChangePasswordModel model)
+		{
+			string? email = HttpContext.Session.GetString("email");
+			if(email == null)
+			{
+				return RedirectToAction("Login");
+			}
+			if (ModelState.IsValid)
+			{
+				if (model.OldPassword == model.NewPassword)
+				{
+					TempData["error"] = "New password cannot be the same as the old password";
+				}
+				else
+				{
+					try
+					{
+						SqlCommand command = new("updatePassword", Connection.conn);
+						command.CommandType = System.Data.CommandType.StoredProcedure;
+						command.Parameters.AddWithValue("@email", email);
+						command.Parameters.AddWithValue("@password", model.NewPassword);
+						command.ExecuteNonQuery();
+						TempData["success"] = "Password changed";
+						return RedirectToAction("Index", "Appointment");
+					}
+					catch
+					{
+						TempData["error"] = "Unable to change password";
+					}
 				}
 			}
 			return View(model);
