@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace AppointmentScheduler.Models
 {
@@ -13,12 +14,15 @@ namespace AppointmentScheduler.Models
 		public string UserEmail { get; set; }
 
 		[Required]
+		[DisplayName("From")]
 		public DateTime FromDate { get; set; }
 
 		[Required]
+		[DisplayName("To")]
 		public DateTime ToDate { get; set; }
 
 		[Required]
+		[DisplayName("Reminder")]
 		public DateTime ReminderTime { get; set; }
 	}
 }

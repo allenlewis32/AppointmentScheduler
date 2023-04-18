@@ -14,12 +14,43 @@ namespace AppointmentScheduler.Controllers
 		// GET: Appointment/List
 		public IActionResult List()
 		{
-			if(HttpContext.Session.Get("email") == null)
+			string? email = HttpContext.Session.GetString("email");
+			if (email == null)
 			{
 				return RedirectToAction("Index", "Home");
 			}
 			List<AppointmentModel> appointments = new();
-			SqlCommand cmd = new("select * from appointments", Connection.conn);
+			SqlCommand cmd = new($"select * from appointments where userEmail='{email}'", Connection.conn);
+			using (var reader = cmd.ExecuteReader())
+			{
+				while (reader.Read())
+				{
+					appointments.Add(new()
+					{
+						Id = reader.GetInt32(0),
+						Name = reader.GetString(1),
+						UserEmail = reader.GetString(2),
+						FromDate = reader.GetDateTime(3),
+						ToDate = reader.GetDateTime(4),
+						ReminderTime = reader.GetDateTime(5),
+					});
+				}
+			}
+			return View(appointments);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		// GET: Appointment/List
+		public IActionResult List(IFormCollection form)
+		{
+			string? email = HttpContext.Session.GetString("email");
+			if (email == null)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+			List<AppointmentModel> appointments = new();
+			SqlCommand cmd = new($"select * from appointments where userEmail='{email}' and name like '%{form["searchTerm"]}%'", Connection.conn);
 			using (var reader = cmd.ExecuteReader())
 			{
 				while (reader.Read())

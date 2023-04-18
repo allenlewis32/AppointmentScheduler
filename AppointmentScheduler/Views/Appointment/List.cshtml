@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<AppointmentScheduler.Models.AppointmentModel>
 
 @{
-    ViewData["Title"] = "Appointments";
+	ViewData["Title"] = "Appointments";
 }
 
 <partial name="_MessagePartial" />
@@ -9,46 +9,53 @@
 <h1>Appointments</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="New">New Appointment</a>
+	<a class="btn btn-primary" asp-action="New">New Appointment</a>
 </p>
+
+<form asp-action="List">
+	<input name="searchTerm" />
+	<button class="btn-sm btn-primary" type="submit">Search</button>
+</form>
+
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FromDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ToDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReminderTime)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FromDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ToDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReminderTime)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.FromDate)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ToDate)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ReminderTime)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.FromDate)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ToDate)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ReminderTime)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+					@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
